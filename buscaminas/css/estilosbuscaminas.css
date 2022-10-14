@@ -1,0 +1,20 @@
+h1{
+    margin-left: 60px;
+}
+tr{
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 20px;
+    text-align: center;
+}
+
+table{
+    margin: 60px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}

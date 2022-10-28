@@ -96,8 +96,7 @@ class Memorin extends Tablero{
 }
 
 
-document.write('<div id="contenedor">')
-document.write('<h1>Memorin</h1>')
+
 
 let filas = prompt('¿Cuántas filas quieres?');
 let columnas = prompt('¿Cuántas columnas quieres?');
@@ -119,4 +118,4 @@ let columnas = prompt('¿Cuántas columnas quieres?');
 let memorin1 = new Memorin(filas, columnas);
 memorin1.pintarTablero();
 
-document.write('</div>')
+

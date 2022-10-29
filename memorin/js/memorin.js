@@ -3,8 +3,27 @@ class Tablero{
         this.filas = filas;
         this.columnas = columnas;
         this.arrayImagenes = ["&#128512;", "&#128513;", "&#128514;", "&#128515;", "&#128516;", "&#128517;", "&#128518;", "&#128519;", "&#128520;", "&#128521;", "&#128512;", "&#128513;"];
+        this.comprobarDatos();
+        
+    }
+
+    comprobarDatos(){
+        if (filas < 2 || columnas < 2 || filas > 25 || columnas > 25 || ((filas * columnas) % 2) != 0) {
+            let inputCorrecto = false;
+            while (inputCorrecto == false) {
     
-        this.crearArrayTablero();
+                window.alert('Error: debes introducir dos números entre 2 y 25. Además el número total de celdas debe ser un número par.')
+                filas = prompt('¿Cuántas filas quieres?');
+                columnas = prompt('¿Cuántas columnas quieres?');
+    
+                if (filas >= 2 && columnas >= 2 && filas < 25 && columnas < 25 && ((filas * columnas) % 2) == 0) {
+                    inputCorrecto = true;
+                    this.crearArrayTablero();
+                }
+            }
+        }else{
+            this.crearArrayTablero();
+        }
     }
 
     crearArrayTablero() {
@@ -42,6 +61,8 @@ class Memorin extends Tablero{
 
         this.colocarImagenes();
     }
+
+    
 
     colocarImagenes() {
         let numeroParejas = (this.filas * this.columnas) / 2;
@@ -100,20 +121,6 @@ class Memorin extends Tablero{
 
 let filas = prompt('¿Cuántas filas quieres?');
 let columnas = prompt('¿Cuántas columnas quieres?');
-
-    if (filas < 2 || columnas < 2 || filas > 25 || columnas > 25 || ((filas * columnas) % 2) != 0) {
-        let inputCorrecto = false;
-        while (inputCorrecto == false) {
-
-            window.alert('Error: debes introducir dos números entre 2 y 25. Además el número total de celdas debe ser un número par.')
-            filas = prompt('¿Cuántas filas quieres?');
-            columnas = prompt('¿Cuántas columnas quieres?');
-
-            if (filas >= 2 && columnas >= 2 && filas < 25 && columnas < 25 && ((filas * columnas) % 2) == 0) {
-                inputCorrecto = true;
-            }
-        }
-    }
 
 let memorin1 = new Memorin(filas, columnas);
 memorin1.pintarTablero();

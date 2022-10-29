@@ -8,6 +8,7 @@ class Tablero{
     }
 
     comprobarDatos(){
+        //Compueba que los datos introducidos son correctos
         if (filas < 2 || columnas < 2 || filas > 25 || columnas > 25 || ((filas * columnas) % 2) != 0) {
             let inputCorrecto = false;
             while (inputCorrecto == false) {
@@ -27,6 +28,7 @@ class Tablero{
     }
 
     crearArrayTablero() {
+        //Crea el array que formará el tablero
         this.arrayTablero = [];
     
         for (let i = 0; i < this.filas; i++) {
@@ -40,6 +42,7 @@ class Tablero{
     }
 
     pintarTablero() {
+        //Dibuja el tablero
         document.write('<table>');
     
         for (let i = 0; i < this.filas; i++) {
@@ -62,22 +65,21 @@ class Memorin extends Tablero{
         this.colocarImagenes();
     }
 
-    
-
     colocarImagenes() {
+        //Coloca las imágenes por parejas en lugares aleatorios
         let numeroParejas = (this.filas * this.columnas) / 2;
         let contadorParejas = 0;
+        let contadorArray = 0;
+        
         let posFila1;
         let posColumna1;
         let posFila2;
         let posColumna2;
-        let i = 0;
-    
     
         while (contadorParejas < numeroParejas) {
     
-            if(i >= 10){
-                i = 0;
+            if(contadorArray >= 10){
+                contadorArray = 0;
             }
     
             let casillasVacias = false;
@@ -86,12 +88,12 @@ class Memorin extends Tablero{
                 posColumna1 = Math.floor(Math.random() * this.columnas);
     
                 if (this.arrayTablero[posFila1][posColumna1] == '') {
-                    this.arrayTablero[posFila1][posColumna1] = this.arrayImagenes[i];
+                    this.arrayTablero[posFila1][posColumna1] = this.arrayImagenes[contadorArray];
                     posFila2 = Math.floor(Math.random() * this.filas);
                     posColumna2 = Math.floor(Math.random() * this.columnas);
     
                     if (this.arrayTablero[posFila2][posColumna2] == '') {
-                        this.arrayTablero[posFila2][posColumna2] = this.arrayImagenes[i];
+                        this.arrayTablero[posFila2][posColumna2] = this.arrayImagenes[contadorArray];
                         contadorParejas++;
                         casillasVacias = true;
                         i++;
@@ -101,7 +103,7 @@ class Memorin extends Tablero{
                             posColumna2 = Math.floor(Math.random() * this.columnas);
     
                         }
-                        this.arrayTablero[posFila2][posColumna2] = this.arrayImagenes[i];
+                        this.arrayTablero[posFila2][posColumna2] = this.arrayImagenes[contadorArray];
                         contadorParejas++;
                         casillasVacias = true;
                         i++;
@@ -115,9 +117,6 @@ class Memorin extends Tablero{
     
     }
 }
-
-
-
 
 let filas = prompt('¿Cuántas filas quieres?');
 let columnas = prompt('¿Cuántas columnas quieres?');

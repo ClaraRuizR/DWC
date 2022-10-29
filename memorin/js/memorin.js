@@ -65,16 +65,20 @@ class Memorin extends Tablero{
         this.colocarImagenes();
     }
 
+    
+
     colocarImagenes() {
         //Coloca las imágenes por parejas en lugares aleatorios
         let numeroParejas = (this.filas * this.columnas) / 2;
         let contadorParejas = 0;
         let contadorArray = 0;
-        
+
         let posFila1;
         let posColumna1;
         let posFila2;
         let posColumna2;
+        
+    
     
         while (contadorParejas < numeroParejas) {
     
@@ -96,7 +100,7 @@ class Memorin extends Tablero{
                         this.arrayTablero[posFila2][posColumna2] = this.arrayImagenes[contadorArray];
                         contadorParejas++;
                         casillasVacias = true;
-                        i++;
+                        contadorArray++;
                     } else {
                         while (this.arrayTablero[posFila2][posColumna2] != '') {
                             posFila2 = Math.floor(Math.random() * this.filas);
@@ -106,7 +110,7 @@ class Memorin extends Tablero{
                         this.arrayTablero[posFila2][posColumna2] = this.arrayImagenes[contadorArray];
                         contadorParejas++;
                         casillasVacias = true;
-                        i++;
+                        contadorArray++;
                     }
     
                 }
@@ -117,6 +121,9 @@ class Memorin extends Tablero{
     
     }
 }
+
+
+
 
 let filas = prompt('¿Cuántas filas quieres?');
 let columnas = prompt('¿Cuántas columnas quieres?');

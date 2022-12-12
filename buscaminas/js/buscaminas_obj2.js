@@ -154,15 +154,32 @@ class Buscaminas extends Tablero {
     despejarCelda(elEvento) {
         let evento = elEvento || window.event;
         let celda = evento.currentTarget;
-        let columna = celda.dataset.columna;
-        let fila = celda.dataset.fila;
-        let casilla;
+        
+        
         //alert(`Despejada la celda (${fila}, ${columna})`);
+        
+        this.despejarUna(celda);
+
+        //Comprobar la celda que se clica
+        //Si está vacía se destapa.Se comprueban las de alrededor
+        //Si es un número, se destapa y se muestra el número
+        //Si es una mina, se destapa, pierdes, se muestran todas 
+        //las celdas con minas. Si se marcó una casilla que no era 
+        //mina, se le pone el fondo rojo.
+        
+    }
+
+    despejarUna(celda){
+
+        let casilla;
+
+        let columna = parseInt(celda.dataset.columna);
+        let fila = parseInt(celda.dataset.fila);
 
         let esNumero = this.arrayTablero[fila][columna] >= 1;
         let esBomba = this.arrayTablero[fila][columna] == 'MINA';
-        let vacio = this.arrayTablero[fila][columna] == '';
-        
+        let vacio = this.arrayTablero[fila][columna] == 0;
+
         if(esNumero){
             celda.innerHTML = this.arrayTablero[fila][columna];
             celda.style.backgroundColor = 'cyan';
@@ -170,17 +187,18 @@ class Buscaminas extends Tablero {
             celda.removeEventListener('contextmenu', this.marcarCelda.bind(this));
 
         } else if(esBomba){
-            celda.innerHTML = this.arrayTablero[fila][columna];
+            celda.innerHTML = "\uD83D\uDCA3";
+            celda.style.backgroundColor = 'red';
             for(let i = 0; i < this.filas; i++){
                 for(let j = 0; j < this.columnas; j++){
                     casilla = document.getElementById(`f${i}_c${j}`);
 
                     if (this.arrayTablero[i][j] == 'MINA' && casilla.innerHTML == "" || casilla.innerHTML == "MINA"){
-                        casilla.innerHTML = this.arrayTablero[i][j];
+                        casilla.innerHTML = "\uD83D\uDCA3";
                         casilla.style.backgroundColor = 'red';
                     } else if(this.arrayTablero[i][j] == 'MINA' && casilla.innerHTML == "\uD83D\uDEA9"){
                         casilla.style.backgroundColor = 'green';
-                        casilla.innerHTML = "MINA";
+
                     } else if(this.arrayTablero[i][j] != 'MINA' && casilla.innerHTML == "\uD83D\uDEA9"){
                         casilla.style.backgroundColor = 'orange';
                     }
@@ -190,29 +208,33 @@ class Buscaminas extends Tablero {
                 }
             }   
             alert('¡Has perdido!');
+
         } else if(vacio){
-            celda.innerHTML = '-';
+            celda.style.backgroundColor = 'lightgray';
             for (let i = fila - 1; i <= fila + 1; i++) {
                 if (i >= 0 && i < this.filas) {
                     for (let j = columna - 1; j <= columna + 1; j++) {
-                        if (j >= 0 && j < this.columnas &&
-                            this.arrayTablero[i][j] == 0) {
-                            console.log(i, j);
+                        if (j >= 0 && j < this.columnas) {
+
+                            if(this.arrayTablero[i][j] == 0){
+                                casilla = document.getElementById(`f${i}_c${j}`);
+                                
+                                if(casilla.style.backgroundColor != 'lightgray'){
+                                    this.despejarUna(casilla);
+                                } 
+                            } else if(this.arrayTablero[i][j] >= 1 && this.arrayTablero[i][j] != 'MINA'){
+                                casilla = document.getElementById(`f${i}_c${j}`);
+                                
+                                if(casilla.innerHTML == ""){
+                                    casilla.innerHTML = this.arrayTablero[i][j];
+                                    casilla.style.backgroundColor = 'cyan';
+                                }  
+                            }                                                      
                         }
                     }
                 }
             }
         }
-            
-        
-
-        //Comprobar la celda que se clica
-        //Si está vacía se destapa.Se comprueban las de alrededor
-        //Si es un número, se destapa y se muestra el número
-        //Si es una mina, se destapa, pierdes, se muestran todas 
-        //las celdas con minas. Si se marcó una casilla que no era 
-        //mina, se le pone el fondo rojo.
-        
     }
 
     marcarCelda(elEvento){

@@ -1,0 +1,23 @@
+table, td, tr{
+    border: 1px black solid;
+    border-collapse: collapse;
+}
+#iconos{
+    margin: 10px;
+    font-size: 30px;
+}
+table{
+    margin: auto;
+}
+h1{
+    text-align: center;
+}
+
+*{
+    background-color: rgb(209, 228, 191);
+}
+
+#nombre{
+    font-size: 25px;
+    text-align: center;
+}

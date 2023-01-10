@@ -41,20 +41,35 @@ class Tablero{
 
     }
 
+
     pintarTablero() {
         //Dibuja el tablero
-        document.write('<table>');
+
+        let nodoTable = document.createElement('table');
+        let nodoTr;
+        let nodoTd;
+        //document.write('<table>');
     
         for (let i = 0; i < this.filas; i++) {
-            document.write('<tr>');
+            //document.write('<tr>');
+
+            nodoTr = document.createElement('tr');
+            nodoTable.appendChild(nodoTr);
     
             for (let j = 0; j < this.columnas; j++) {
-                document.write(`<td><p id="iconos">${this.arrayTablero[i][j]}</p></td>`);
+                //document.write(`<td><p id="iconos">${this.arrayTablero[i][j]}</p></td>`);
+                nodoTd = document.createElement('td');
+                nodoTd.id = `f${i}_c${j}`;
+                nodoTd.dataset.fila = i
+                nodoTd.dataset.columna = j;
+                nodoTr.appendChild(nodoTd);
             }
     
-            document.write('</tr>');
+            //document.write('</tr>');
         }
-        document.write('</table>');
+        //document.write('</table>');
+        document.body.appendChild(nodoTable);
+        console.log(this.arrayTablero);
     }
 }
 
@@ -123,12 +138,12 @@ class Memorin extends Tablero{
 }
 
 
+window.onload = function(){
 
+    let filas = prompt('¿Cuántas filas quieres?');
+    let columnas = prompt('¿Cuántas columnas quieres?');
 
-let filas = prompt('¿Cuántas filas quieres?');
-let columnas = prompt('¿Cuántas columnas quieres?');
-
-let memorin1 = new Memorin(filas, columnas);
-memorin1.pintarTablero();
-
+    let memorin1 = new Memorin(filas, columnas);
+    memorin1.pintarTablero();
+}
 

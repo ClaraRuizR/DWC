@@ -137,11 +137,11 @@ class Memorin extends Tablero{
     }
 }
 
+let filas = prompt('¿Cuántas filas quieres?');
+let columnas = prompt('¿Cuántas columnas quieres?');
+
 
 window.onload = function(){
-
-    let filas = prompt('¿Cuántas filas quieres?');
-    let columnas = prompt('¿Cuántas columnas quieres?');
 
     let memorin1 = new Memorin(filas, columnas);
     memorin1.pintarTablero();

@@ -48,7 +48,6 @@ class Tablero{
         let nodoTable = document.createElement('table');
         let nodoTr;
         let nodoTd;
-        //document.write('<table>');
     
         for (let i = 0; i < this.filas; i++) {
             //document.write('<tr>');
@@ -79,8 +78,6 @@ class Memorin extends Tablero{
 
         this.colocarImagenes();
     }
-
-    
 
     colocarImagenes() {
         //Coloca las imágenes por parejas en lugares aleatorios
@@ -135,6 +132,55 @@ class Memorin extends Tablero{
         }
     
     }
+
+    colocarListeners(){
+        super.pintarTablero();
+
+        let celda;
+
+        this.despejarCelda = this.despejarCelda.bind(this);
+
+        for (let i = 0; i < this.filas; i++) {
+
+            for (let j = 0; j < this.columnas; j++) {
+
+                celda = document.getElementById(`f${i}_c${j}`);
+            
+                celda.addEventListener('click', this.despejarCelda);
+
+            }
+        }
+
+        this.arrayContenido;
+    }
+
+    despejarCelda(elEvento) {
+        let evento = elEvento || window.event;
+        let celda = evento.currentTarget;
+        
+        let contenido = this.despejarUna(celda);
+
+        this.arrayContenido.push(contenido);
+
+        //this.comprobarParejas();
+        
+    }
+
+    despejarUna(celda){
+
+        let columna = celda.dataset.columna;
+        let fila = celda.dataset.fila;
+
+        let contenido = this.arrayTablero[fila][columna]
+
+        celda.innerHTML = contenido;
+
+        celda.removeEventListener('click', this.despejarCelda);
+
+        return contenido;
+    }
+
+
 }
 
 let filas = prompt('¿Cuántas filas quieres?');
@@ -144,6 +190,6 @@ let columnas = prompt('¿Cuántas columnas quieres?');
 window.onload = function(){
 
     let memorin1 = new Memorin(filas, columnas);
-    memorin1.pintarTablero();
+    memorin1.colocarListeners();
 }
 

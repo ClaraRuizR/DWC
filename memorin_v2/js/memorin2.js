@@ -50,13 +50,11 @@ class Tablero{
         let nodoTd;
     
         for (let i = 0; i < this.filas; i++) {
-            //document.write('<tr>');
 
             nodoTr = document.createElement('tr');
             nodoTable.appendChild(nodoTr);
     
             for (let j = 0; j < this.columnas; j++) {
-                //document.write(`<td><p id="iconos">${this.arrayTablero[i][j]}</p></td>`);
                 nodoTd = document.createElement('td');
                 nodoTd.id = `f${i}_c${j}`;
                 nodoTd.dataset.fila = i
@@ -64,11 +62,15 @@ class Tablero{
                 nodoTr.appendChild(nodoTd);
             }
     
-            //document.write('</tr>');
         }
-        //document.write('</table>');
+
         document.body.appendChild(nodoTable);
         console.log(this.arrayTablero);
+
+        let nodoBoton = document.createElement('div');
+        document.body.appendChild(nodoBoton);
+        nodoBoton.id = "botonReinicio";
+        nodoBoton.innerHTML = "Reiniciar juego"
     }
 }
 
@@ -139,6 +141,7 @@ class Memorin extends Tablero{
         let celda;
 
         this.despejarCelda = this.despejarCelda.bind(this);
+        this.reiniciarJuego = this.reiniciarJuego.bind(this);
 
         for (let i = 0; i < this.filas; i++) {
 
@@ -151,7 +154,20 @@ class Memorin extends Tablero{
             }
         }
 
+        let botonReinicio =  document.getElementById("botonReinicio");
+        botonReinicio.addEventListener('click', this.reiniciarJuego);
+
         this.arrayContenido = [];
+    }
+
+    reiniciarJuego(elEvento){
+        let evento = elEvento || window.event;
+        let boton = evento.currentTarget;
+        let confirmacion = window.confirm("¿Quieres reiniciar el juego?");
+
+        if (confirmacion){
+            window.location.reload();
+        }
     }
 
     despejarCelda(elEvento) {

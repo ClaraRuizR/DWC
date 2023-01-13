@@ -151,7 +151,7 @@ class Memorin extends Tablero{
             }
         }
 
-        this.arrayContenido;
+        this.arrayContenido = [];
     }
 
     despejarCelda(elEvento) {
@@ -160,9 +160,11 @@ class Memorin extends Tablero{
         
         let contenido = this.despejarUna(celda);
 
-        this.arrayContenido.push(contenido);
+        let elId = celda.attributes.getNamedItem("id").nodeValue;
 
-        //this.comprobarParejas();
+        this.arrayContenido.push(contenido, elId);
+
+        this.comprobarParejas();
         
     }
 
@@ -180,7 +182,33 @@ class Memorin extends Tablero{
         return contenido;
     }
 
+    comprobarParejas(){
+        if(this.arrayContenido.length == 4){
 
+            let celda1 = document.getElementById(this.arrayContenido[1]);
+            let celda2 = document.getElementById(this.arrayContenido[3]);
+
+            if(this.arrayContenido[0] != this.arrayContenido[2]){
+                console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es distinto a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
+                
+                setTimeout(function(){
+                    celda1.innerHTML = " ";                    
+                    celda2.innerHTML = " ";
+                }, 1000);
+                
+                celda1.addEventListener('click', this.despejarCelda);
+                celda2.addEventListener('click', this.despejarCelda);
+                this.arrayContenido = [];
+                console.log(this.arrayContenido.length);
+
+            }else{
+                console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es igual a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
+                celda1.style.backgroundColor = 'green';
+                celda2.style.backgroundColor = 'green';
+                this.arrayContenido = [];
+            }
+        }
+    }
 }
 
 let filas = prompt('¿Cuántas filas quieres?');

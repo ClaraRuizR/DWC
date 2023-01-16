@@ -25,3 +25,33 @@ h1{
     font-size: 25px;
     text-align: center;
 }
+
+#botonReinicio{
+    margin: auto;
+    height: 50px;
+    width: 150px;
+    border: black solid 1px;
+    background-color: white;
+}
+
+#textoReinicio{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+#marcador{
+    margin: 50px;
+    height: 100px;
+    width: 200px;
+    border: black solid 1px;
+    
+}
+
+#puntuacion{
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;  
+}

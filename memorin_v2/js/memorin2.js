@@ -16,7 +16,7 @@ class Tablero{
                 window.alert('Error: debes introducir dos números entre 2 y 25. Además el número total de celdas debe ser un número par.')
                 filas = prompt('¿Cuántas filas quieres?');
                 columnas = prompt('¿Cuántas columnas quieres?');
-    
+                
                 if (filas >= 2 && columnas >= 2 && filas < 25 && columnas < 25 && ((filas * columnas) % 2) == 0) {
                     inputCorrecto = true;
                     this.crearArrayTablero();
@@ -64,13 +64,30 @@ class Tablero{
     
         }
 
+        this.puntuacionActual = 0;
+        this.puntuacionMaxima = ((filas * columnas) / 2) * 10
+        console.log(this.puntuacionMaxima);
+
         document.body.appendChild(nodoTable);
         console.log(this.arrayTablero);
+
+        let nodoMarcador = document.createElement('div');
+        document.body.appendChild(nodoMarcador);
+        nodoMarcador.id = "marcador";
+
+        let nodoPuntuacion = document.createElement('p');
+        nodoMarcador.appendChild(nodoPuntuacion);
+        nodoPuntuacion.id = "puntuacion";
+        nodoPuntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
         let nodoBoton = document.createElement('div');
         document.body.appendChild(nodoBoton);
         nodoBoton.id = "botonReinicio";
-        nodoBoton.innerHTML = "Reiniciar juego"
+
+        let nodoTextoReinicio = document.createElement('p');
+        nodoBoton.appendChild(nodoTextoReinicio);
+        nodoTextoReinicio.id = "textoReinicio";
+        nodoTextoReinicio.innerHTML = "Reiniciar juego";
     }
 }
 
@@ -92,8 +109,6 @@ class Memorin extends Tablero{
         let posFila2;
         let posColumna2;
         
-    
-    
         while (contadorParejas < numeroParejas) {
     
             if(contadorArray >= 10){
@@ -130,7 +145,7 @@ class Memorin extends Tablero{
                 }
             }
     
-            
+
         }
     
     }
@@ -178,6 +193,10 @@ class Memorin extends Tablero{
 
         let elId = celda.attributes.getNamedItem("id").nodeValue;
 
+        if(this.arrayContenido.length >= 4){
+            this.arrayContenido = [];
+        }
+
         this.arrayContenido.push(contenido, elId);
 
         this.comprobarParejas();
@@ -214,14 +233,11 @@ class Memorin extends Tablero{
                 
                 celda1.addEventListener('click', this.despejarCelda);
                 celda2.addEventListener('click', this.despejarCelda);
-                this.arrayContenido = [];
-                console.log(this.arrayContenido.length);
 
             }else{
                 console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es igual a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
                 celda1.style.backgroundColor = 'green';
                 celda2.style.backgroundColor = 'green';
-                this.arrayContenido = [];
             }
         }
     }

@@ -48,6 +48,7 @@ class Tablero{
         let nodoTable = document.createElement('table');
         let nodoTr;
         let nodoTd;
+        let nodoIconos;
     
         for (let i = 0; i < this.filas; i++) {
 
@@ -60,6 +61,10 @@ class Tablero{
                 nodoTd.dataset.fila = i
                 nodoTd.dataset.columna = j;
                 nodoTr.appendChild(nodoTd);
+
+                nodoIconos = document.createElement('p');
+                nodoIconos.id = 'iconos';
+                nodoTd.appendChild(nodoIconos);
             }
     
         }
@@ -210,7 +215,7 @@ class Memorin extends Tablero{
 
         let contenido = this.arrayTablero[fila][columna]
 
-        celda.innerHTML = contenido;
+        celda.firstChild.innerHTML = contenido;
 
         celda.removeEventListener('click', this.despejarCelda);
 
@@ -227,8 +232,8 @@ class Memorin extends Tablero{
                 console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es distinto a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
                 
                 setTimeout(function(){
-                    celda1.innerHTML = " ";                    
-                    celda2.innerHTML = " ";
+                    celda1.firstChild.innerHTML = " ";                    
+                    celda2.firstChild.innerHTML = " ";
                 }, 1000);
                 
                 celda1.addEventListener('click', this.despejarCelda);
@@ -241,6 +246,8 @@ class Memorin extends Tablero{
             }
         }
     }
+
+
 }
 
 let filas = prompt('¿Cuántas filas quieres?');

@@ -178,6 +178,8 @@ class Memorin extends Tablero{
         botonReinicio.addEventListener('click', this.reiniciarJuego);
 
         this.arrayContenido = [];
+        this.arrayId = [];
+        this.contadorClick = 0;
     }
 
     reiniciarJuego(elEvento){
@@ -203,6 +205,8 @@ class Memorin extends Tablero{
         }
 
         this.arrayContenido.push(contenido, elId);
+        this.arrayId.push(elId);
+        this.contadorClick++;
 
         this.comprobarParejas();
         
@@ -239,15 +243,53 @@ class Memorin extends Tablero{
                 celda1.addEventListener('click', this.despejarCelda);
                 celda2.addEventListener('click', this.despejarCelda);
 
+                //this.calcularPuntuacion(correcto);
+
             }else{
                 console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es igual a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
                 celda1.style.backgroundColor = 'green';
                 celda2.style.backgroundColor = 'green';
+                
+                this.calcularPuntuacion();
             }
         }
     }
 
+    calcularPuntuacion(){
 
+        let primerId = this.arrayId[0];
+
+        if(primerId != this.arrayId[this.contadorClick-2]){
+            
+        }
+
+        if(this.arrayId.length == 2){          
+            this.puntuacionActual = this.puntuacionActual + 10;
+            console.log(this.arrayId.length);
+            this.arrayId = [];
+            this.contadorClick = 0;
+            
+        } else if(this.arrayId.length == 4){
+            this.puntuacionActual = this.puntuacionActual + 5;
+            console.log(this.arrayId.length);
+            this.arrayId = [];
+            this.contadorClick = 0;
+
+        } else if(this.arrayId.length == 6 && primerId == this.arrayId[this.contadorClick-2]){
+            this.puntuacionActual = this.puntuacionActual + 2.5;
+            console.log(this.arrayId.length);
+            this.arrayId = [];
+            this.contadorClick = 0;
+
+        } else if (this.arrayId.length > 6 && primerId == this.arrayId[this.contadorClick-2]){
+            console.log(this.arrayId.length);
+            this.arrayId = [];
+            this.contadorClick = 0;
+
+        } 
+        console.log(`puntos: ${this.puntuacionActual}`);
+        
+    }
 }
 
 let filas = prompt('¿Cuántas filas quieres?');

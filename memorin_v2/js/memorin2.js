@@ -68,10 +68,10 @@ class Tablero{
             }
     
         }
+        console.log(this.puntuacionMaxima);
 
         this.puntuacionActual = 0;
-        this.puntuacionMaxima = ((filas * columnas) / 2) * 10
-        console.log(this.puntuacionMaxima);
+        this.puntuacionMaxima = ((filas * columnas) / 2) * 10;
 
         document.body.appendChild(nodoTable);
         console.log(this.arrayTablero);
@@ -177,6 +177,7 @@ class Memorin extends Tablero{
         let botonReinicio =  document.getElementById("botonReinicio");
         botonReinicio.addEventListener('click', this.reiniciarJuego);
 
+        
         this.arrayContenido = [];
         this.arrayId = [];
         this.contadorClick = 0;
@@ -207,6 +208,7 @@ class Memorin extends Tablero{
         this.arrayContenido.push(contenido, elId);
         this.arrayId.push(elId);
         this.contadorClick++;
+        this.comprobarId();
 
         this.comprobarParejas();
         
@@ -226,6 +228,21 @@ class Memorin extends Tablero{
         return contenido;
     }
 
+    //Comprueba que el id de la primera casilla elegida sea el mismo.
+    comprobarId(){
+
+        let primerId = this.arrayId[0];
+
+        if(this.arrayId.length > 2 && primerId != this.arrayId[this.contadorClick-1]){
+
+            for(let i = 0; i < this.arrayId.length-1; i++){
+                this.arrayId.shift();
+            }
+            
+        } 
+
+    }
+
     comprobarParejas(){
         if(this.arrayContenido.length == 4){
 
@@ -243,7 +260,6 @@ class Memorin extends Tablero{
                 celda1.addEventListener('click', this.despejarCelda);
                 celda2.addEventListener('click', this.despejarCelda);
 
-                //this.calcularPuntuacion(correcto);
 
             }else{
                 console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es igual a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
@@ -257,34 +273,35 @@ class Memorin extends Tablero{
 
     calcularPuntuacion(){
 
-        let primerId = this.arrayId[0];
-
-        if(primerId != this.arrayId[this.contadorClick-2]){
-            
-        }
+        let puntuacion = document.getElementById(`puntuacion`);
 
         if(this.arrayId.length == 2){          
             this.puntuacionActual = this.puntuacionActual + 10;
+
             console.log(this.arrayId.length);
             this.arrayId = [];
             this.contadorClick = 0;
+            puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
             
         } else if(this.arrayId.length == 4){
             this.puntuacionActual = this.puntuacionActual + 5;
             console.log(this.arrayId.length);
             this.arrayId = [];
             this.contadorClick = 0;
+            puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
-        } else if(this.arrayId.length == 6 && primerId == this.arrayId[this.contadorClick-2]){
+        } else if(this.arrayId.length == 6){
             this.puntuacionActual = this.puntuacionActual + 2.5;
             console.log(this.arrayId.length);
             this.arrayId = [];
             this.contadorClick = 0;
+            puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
-        } else if (this.arrayId.length > 6 && primerId == this.arrayId[this.contadorClick-2]){
+        } else if (this.arrayId.length > 6){
             console.log(this.arrayId.length);
             this.arrayId = [];
             this.contadorClick = 0;
+            puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
         } 
         console.log(`puntos: ${this.puntuacionActual}`);

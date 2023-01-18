@@ -177,7 +177,8 @@ class Memorin extends Tablero{
         let botonReinicio =  document.getElementById("botonReinicio");
         botonReinicio.addEventListener('click', this.reiniciarJuego);
 
-        
+        this.parejasTotales = (filas * columnas)/2
+        this.parejasAcertadas = 0;
         this.arrayContenido = [];
         this.arrayId = [];
         this.contadorClick = 0;
@@ -265,8 +266,11 @@ class Memorin extends Tablero{
                 console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es igual a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
                 celda1.style.backgroundColor = 'green';
                 celda2.style.backgroundColor = 'green';
-                
+                this.parejasAcertadas++
                 this.calcularPuntuacion();
+                if(this.parejasAcertadas == this.parejasTotales){
+                    this.ganar();
+                }
             }
         }
     }
@@ -307,7 +311,21 @@ class Memorin extends Tablero{
         console.log(`puntos: ${this.puntuacionActual}`);
         
     }
+
+    ganar(){
+        alert('¡Felicidades, has ganado!');
+        let casilla;
+        for(let i = 0; i < this.filas; i++){
+            for(let j = 0; j < this.columnas; j++){
+                casilla = document.getElementById(`f${i}_c${j}`);
+
+                casilla.removeEventListener('click', this.despejarCelda);
+            }
+        }   
+    }
 }
+
+
 
 let filas = prompt('¿Cuántas filas quieres?');
 let columnas = prompt('¿Cuántas columnas quieres?');

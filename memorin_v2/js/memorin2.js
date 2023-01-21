@@ -2,6 +2,9 @@ class Tablero{
     constructor(filas, columnas){
         this.filas = filas;
         this.columnas = columnas;
+
+        this.puntuacionActual = 0;
+        this.puntuacionMaxima = ((filas * columnas) / 2) * 10;
         this.arrayImagenes = ["&#128512;", "&#128513;", "&#128514;", "&#128515;", "&#128516;", "&#128517;", "&#128518;", "&#128519;", "&#128520;", "&#128521;", "&#128512;", "&#128513;"];
         this.comprobarDatos();
         
@@ -43,7 +46,7 @@ class Tablero{
 
 
     pintarTablero() {
-        //Dibuja el tablero
+        //Dibuja el tablero y llama a las funciones que pintan el resto de componentes
 
         let nodoTable = document.createElement('table');
         let nodoTr;
@@ -70,12 +73,19 @@ class Tablero{
         }
         console.log(this.puntuacionMaxima);
 
-        this.puntuacionActual = 0;
-        this.puntuacionMaxima = ((filas * columnas) / 2) * 10;
+        
 
         document.body.appendChild(nodoTable);
         console.log(this.arrayTablero);
 
+        this.crearPuntuacion();
+
+        this.crearBotonReinicio()
+
+    }
+
+    crearPuntuacion(){
+        //Crea el marcador
         let nodoMarcador = document.createElement('div');
         document.body.appendChild(nodoMarcador);
         nodoMarcador.id = "marcador";
@@ -84,7 +94,10 @@ class Tablero{
         nodoMarcador.appendChild(nodoPuntuacion);
         nodoPuntuacion.id = "puntuacion";
         nodoPuntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
+    }
 
+    crearBotonReinicio(){
+        //Crea el botón de reinicio
         let nodoBoton = document.createElement('div');
         document.body.appendChild(nodoBoton);
         nodoBoton.id = "botonReinicio";
@@ -100,6 +113,11 @@ class Memorin extends Tablero{
     constructor(filas, columnas, arrayImagenes){
         super(filas, columnas, arrayImagenes);
 
+        this.parejasTotales = (filas * columnas)/2
+        this.parejasAcertadas = 0;
+        this.arrayContenido = [];
+        this.arrayId = [];
+        this.contadorClick = 0;
         this.colocarImagenes();
     }
 
@@ -149,13 +167,14 @@ class Memorin extends Tablero{
     
                 }
             }
-    
+
 
         }
     
     }
 
     colocarListeners(){
+        //Coloca los listeners en cada casilla
         super.pintarTablero();
 
         let celda;
@@ -177,14 +196,11 @@ class Memorin extends Tablero{
         let botonReinicio =  document.getElementById("botonReinicio");
         botonReinicio.addEventListener('click', this.reiniciarJuego);
 
-        this.parejasTotales = (filas * columnas)/2
-        this.parejasAcertadas = 0;
-        this.arrayContenido = [];
-        this.arrayId = [];
-        this.contadorClick = 0;
+        
     }
 
     reiniciarJuego(elEvento){
+        //Reinicia la partida
         let evento = elEvento || window.event;
         let boton = evento.currentTarget;
         let confirmacion = window.confirm("¿Quieres reiniciar el juego?");
@@ -195,6 +211,8 @@ class Memorin extends Tablero{
     }
 
     despejarCelda(elEvento) {
+        //Evento que llama a la función despejarUna, mete el contenido y el id
+        //en arrays y llama a otras funciones que comprueban si son pareja.
         let evento = elEvento || window.event;
         let celda = evento.currentTarget;
         
@@ -216,7 +234,7 @@ class Memorin extends Tablero{
     }
 
     despejarUna(celda){
-
+        //Muestra el icono, quita el listener de la casilla, devuelve su contenido.
         let columna = celda.dataset.columna;
         let fila = celda.dataset.fila;
 
@@ -245,6 +263,7 @@ class Memorin extends Tablero{
     }
 
     comprobarParejas(){
+        //Comprueba si las primeras posiciones en el array son pareja 
         if(this.arrayContenido.length == 4){
 
             let celda1 = document.getElementById(this.arrayContenido[1]);
@@ -276,7 +295,7 @@ class Memorin extends Tablero{
     }
 
     calcularPuntuacion(){
-
+        //Calcula la puntuación
         let puntuacion = document.getElementById(`puntuacion`);
 
         if(this.arrayId.length == 2){          
@@ -313,7 +332,8 @@ class Memorin extends Tablero{
     }
 
     ganar(){
-        alert('¡Felicidades, has ganado!');
+        //Muestra el mensaje al final de la partida 
+        alert(`¡Felicidades, has ganado! Puntuación: ${this.puntuacionActual}`);
         let casilla;
         for(let i = 0; i < this.filas; i++){
             for(let j = 0; j < this.columnas; j++){

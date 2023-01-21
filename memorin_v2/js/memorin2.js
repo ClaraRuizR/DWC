@@ -221,7 +221,7 @@ class Memorin extends Tablero{
         let elId = celda.attributes.getNamedItem("id").nodeValue;
 
         if(this.arrayContenido.length >= 4){
-            this.arrayContenido = [];
+             this.arrayContenido = [];
         }
 
         this.arrayContenido.push(contenido, elId);
@@ -252,7 +252,7 @@ class Memorin extends Tablero{
 
         let primerId = this.arrayId[0];
 
-        if(this.arrayId.length > 2 && primerId != this.arrayId[this.contadorClick-1]){
+        if(this.arrayId.length % 2 == 0 && primerId != this.arrayId[this.arrayId.length-2]){
 
             for(let i = 0; i < this.arrayId.length-1; i++){
                 this.arrayId.shift();

@@ -117,7 +117,6 @@ class Memorin extends Tablero{
         this.parejasAcertadas = 0;
         this.arrayContenido = [];
         this.arrayId = [];
-        this.contadorClick = 0;
         this.colocarImagenes();
     }
 
@@ -226,7 +225,6 @@ class Memorin extends Tablero{
 
         this.arrayContenido.push(contenido, elId);
         this.arrayId.push(elId);
-        this.contadorClick++;
         this.comprobarId();
 
         this.comprobarParejas();
@@ -303,27 +301,23 @@ class Memorin extends Tablero{
 
             console.log(this.arrayId.length);
             this.arrayId = [];
-            this.contadorClick = 0;
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
             
         } else if(this.arrayId.length == 4){
             this.puntuacionActual = this.puntuacionActual + 5;
             console.log(this.arrayId.length);
             this.arrayId = [];
-            this.contadorClick = 0;
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
         } else if(this.arrayId.length == 6){
             this.puntuacionActual = this.puntuacionActual + 2.5;
             console.log(this.arrayId.length);
             this.arrayId = [];
-            this.contadorClick = 0;
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
         } else if (this.arrayId.length > 6){
             console.log(this.arrayId.length);
             this.arrayId = [];
-            this.contadorClick = 0;
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
         } 

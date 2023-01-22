@@ -1,17 +1,15 @@
 class Tablero{
-    constructor(filas, columnas){
-        this.filas = filas;
-        this.columnas = columnas;
-
-        this.puntuacionActual = 0;
-        this.puntuacionMaxima = ((filas * columnas) / 2) * 10;
-        this.arrayImagenes = ["&#128512;", "&#128513;", "&#128514;", "&#128515;", "&#128516;", "&#128517;", "&#128518;", "&#128519;", "&#128520;", "&#128521;", "&#128512;", "&#128513;"];
+    constructor(){
         this.comprobarDatos();
-        
+        this.puntuacionActual = 0;
+        this.arrayImagenes = ["&#128512;", "&#128513;", "&#128514;", "&#128515;", "&#128516;", "&#128517;", "&#128518;", "&#128519;", "&#128520;", "&#128521;", "&#128512;", "&#128513;"]; 
     }
 
     comprobarDatos(){
-        //Compueba que los datos introducidos son correctos
+        //Pregunta las filas y las columnas y compueba que los datos introducidos son correctos
+        let filas = prompt('¿Cuántas filas quieres?');
+        let columnas = prompt('¿Cuántas columnas quieres?');
+
         if (filas < 2 || columnas < 2 || filas > 25 || columnas > 25 || ((filas * columnas) % 2) != 0) {
             let inputCorrecto = false;
             while (inputCorrecto == false) {
@@ -25,8 +23,12 @@ class Tablero{
                     this.crearArrayTablero();
                 }
             }
+
         }else{
-            this.crearArrayTablero();
+            this.puntuacionMaxima = ((filas * columnas) / 2) * 10;
+            this.filas = filas;
+            this.columnas = columnas;
+            this.crearArrayTablero();        
         }
     }
 
@@ -35,15 +37,13 @@ class Tablero{
         this.arrayTablero = [];
     
         for (let i = 0; i < this.filas; i++) {
-            this.arrayTablero[i] = new Array(columnas);
+            this.arrayTablero[i] = new Array(this.columnas);
     
             for (let j = 0; j < this.columnas; j++) {
                 this.arrayTablero[i][j] = '';
             }
         }
-
     }
-
 
     pintarTablero() {
         //Dibuja el tablero y llama a las funciones que pintan el resto de componentes
@@ -167,7 +167,6 @@ class Memorin extends Tablero{
                 }
             }
 
-
         }
     
     }
@@ -245,8 +244,8 @@ class Memorin extends Tablero{
         return contenido;
     }
 
-    //Comprueba que el id de la primera casilla elegida sea el mismo.
     comprobarId(){
+        //Comprueba que el id de la primera casilla elegida sea el mismo.
 
         let primerId = this.arrayId[0];
 
@@ -339,15 +338,8 @@ class Memorin extends Tablero{
     }
 }
 
-
-
-let filas = prompt('¿Cuántas filas quieres?');
-let columnas = prompt('¿Cuántas columnas quieres?');
-
-
 window.onload = function(){
 
-    let memorin1 = new Memorin(filas, columnas);
+    let memorin1 = new Memorin();
     memorin1.colocarListeners();
 }
-

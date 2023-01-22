@@ -5,31 +5,39 @@ class Tablero{
         this.arrayImagenes = ["&#128512;", "&#128513;", "&#128514;", "&#128515;", "&#128516;", "&#128517;", "&#128518;", "&#128519;", "&#128520;", "&#128521;", "&#128512;", "&#128513;"]; 
     }
 
+    preguntarDatos(){
+
+        let f = prompt('¿Cuántas filas quieres?');
+        let c = prompt('¿Cuántas columnas quieres?');
+
+        return {filas: f, columnas: c}
+
+    }
+
+    comprobarDatosCorrectos(filas, columnas){
+        return filas >= 2 && columnas >= 2 && filas < 25 && columnas < 25 && ((filas * columnas) % 2) == 0
+    }
+
     comprobarDatos(){
         //Pregunta las filas y las columnas y compueba que los datos introducidos son correctos
-        let filas = prompt('¿Cuántas filas quieres?');
-        let columnas = prompt('¿Cuántas columnas quieres?');
+        let datos = this.preguntarDatos();
 
-        if (filas < 2 || columnas < 2 || filas > 25 || columnas > 25 || ((filas * columnas) % 2) != 0) {
+        if (!this.comprobarDatosCorrectos(datos.filas, datos.columnas)) {
             let inputCorrecto = false;
-            while (inputCorrecto == false) {
-    
-                window.alert('Error: debes introducir dos números entre 2 y 25. Además el número total de celdas debe ser un número par.')
-                filas = prompt('¿Cuántas filas quieres?');
-                columnas = prompt('¿Cuántas columnas quieres?');
+            while (!inputCorrecto) {
                 
-                if (filas >= 2 && columnas >= 2 && filas < 25 && columnas < 25 && ((filas * columnas) % 2) == 0) {
+                window.alert('Error: debes introducir dos números entre 2 y 25. Además el número total de celdas debe ser un número par.')
+                datos = this.preguntarDatos();
+                if (this.comprobarDatosCorrectos(datos.filas, datos.columnas)) {
                     inputCorrecto = true;
-                    this.crearArrayTablero();
                 }
             }
-
-        }else{
-            this.puntuacionMaxima = ((filas * columnas) / 2) * 10;
-            this.filas = filas;
-            this.columnas = columnas;
-            this.crearArrayTablero();        
         }
+
+        this.filas = datos.filas;
+        this.columnas = datos.columnas;
+        this.puntuacionMaxima = ((this.filas * this.columnas) / 2) * 10;
+        this.crearArrayTablero();
     }
 
     crearArrayTablero() {
@@ -110,10 +118,10 @@ class Tablero{
 }
 
 class Memorin extends Tablero{
-    constructor(filas, columnas, arrayImagenes){
-        super(filas, columnas, arrayImagenes);
-
-        this.parejasTotales = (filas * columnas)/2
+    constructor(){
+        super();
+        console.log(this.filas, this.columnas);
+        this.parejasTotales = (this.filas * this.columnas)/2
         this.parejasAcertadas = 0;
         this.arrayContenido = [];
         this.arrayId = [];
@@ -325,7 +333,7 @@ class Memorin extends Tablero{
     }
 
     ganar(){
-        //Muestra el mensaje al final de la partida 
+        //Muestra el mensaje al final de la partida
         alert(`¡Felicidades, has ganado! Puntuación: ${this.puntuacionActual}`);
         let casilla;
         for(let i = 0; i < this.filas; i++){
@@ -339,7 +347,7 @@ class Memorin extends Tablero{
 }
 
 window.onload = function(){
-
+  
     let memorin1 = new Memorin();
     memorin1.colocarListeners();
 }

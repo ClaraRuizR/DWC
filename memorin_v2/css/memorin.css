@@ -1,3 +1,15 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(209, 228, 191);
+    font-family: 'Courier New', Courier, monospace;
+}
+
 table, td, tr{
     border: 1px black solid;
     border-collapse: collapse;
@@ -15,43 +27,61 @@ table{
 }
 h1{
     text-align: center;
-}
-
-*{
-    background-color: rgb(209, 228, 191);
+    padding: 30px;
 }
 
 #nombre{
     font-size: 25px;
     text-align: center;
+    padding: 20px;
 }
 
 #botonReinicio{
-    margin: auto;
-    height: 50px;
-    width: 150px;
+    margin: 50px;
+    height: 100px;
+    width: 200px;
     border: black solid 1px;
     background-color: white;
-}
-
-#textoReinicio{
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    float: left;
 }
+
 
 #marcador{
     margin: 50px;
     height: 100px;
     width: 200px;
     border: black solid 1px;
-    
+    display: flex;
+    align-items: center;  
+    justify-content: center;
+    float: left;
+    background-color: white;
+}
+
+#crono{
+    margin: 50px;
+    height: 100px;
+    width: 200px;
+    border: black solid 1px;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    float: left;
+    background-color: white;
 }
 
 #puntuacion{
     font-size: 30px;
+}
+
+#botones{
+    margin-top: 30px;
+    width: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;  
+    align-items: center; 
+    float: left;
 }

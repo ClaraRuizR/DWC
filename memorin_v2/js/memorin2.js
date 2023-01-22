@@ -6,7 +6,7 @@ class Tablero{
     }
 
     preguntarDatos(){
-
+        //Pregunta las filas y las columnas
         let f = prompt('¿Cuántas filas quieres?');
         let c = prompt('¿Cuántas columnas quieres?');
 
@@ -15,11 +15,12 @@ class Tablero{
     }
 
     comprobarDatosCorrectos(filas, columnas){
+        //Compueba que los datos introducidos son correctos
         return filas >= 2 && columnas >= 2 && filas < 25 && columnas < 25 && ((filas * columnas) % 2) == 0
     }
 
     comprobarDatos(){
-        //Pregunta las filas y las columnas y compueba que los datos introducidos son correctos
+        //Compueba que los datos introducidos son correctos
         let datos = this.preguntarDatos();
 
         if (!this.comprobarDatosCorrectos(datos.filas, datos.columnas)) {
@@ -79,23 +80,48 @@ class Tablero{
             }
     
         }
-        console.log(this.puntuacionMaxima);
-
-        
-
         document.body.appendChild(nodoTable);
         console.log(this.arrayTablero);
 
+        let nodoBotones = document.createElement('div');
+        nodoBotones.id = 'botones';
+        document.body.appendChild(nodoBotones);
+
         this.crearPuntuacion();
-
+        this.crearCrono();
         this.crearBotonReinicio()
+    }
 
+    crearCrono(){
+        //Crea un cronómetro
+        let nodoCrono = document.createElement('div');
+        let nodoBotones = document.getElementById("botones");
+        nodoBotones.appendChild(nodoCrono);
+        nodoCrono.id = "crono";
+        nodoCrono.innerHTML= `0:0:0`;
+        let seg = 0;
+        let min = 0;
+        let hor = 0;
+
+        this.crono = setInterval(() =>{
+            seg++
+            if(seg===60){
+                min++
+                seg=0
+            }
+            if(min===60){
+                hor++
+                min=0
+            }
+            nodoCrono.innerHTML= `${hor}:${min}:${seg}` 
+        },1000);
     }
 
     crearPuntuacion(){
         //Crea el marcador
         let nodoMarcador = document.createElement('div');
-        document.body.appendChild(nodoMarcador);
+        let nodoBotones = document.getElementById("botones");
+        nodoBotones.appendChild(nodoMarcador);
         nodoMarcador.id = "marcador";
 
         let nodoPuntuacion = document.createElement('p');
@@ -107,7 +133,9 @@ class Tablero{
     crearBotonReinicio(){
         //Crea el botón de reinicio
         let nodoBoton = document.createElement('div');
-        document.body.appendChild(nodoBoton);
+        let nodoBotones = document.getElementById("botones");
+
+        nodoBotones.appendChild(nodoBoton);
         nodoBoton.id = "botonReinicio";
 
         let nodoTextoReinicio = document.createElement('p');
@@ -120,7 +148,6 @@ class Tablero{
 class Memorin extends Tablero{
     constructor(){
         super();
-        console.log(this.filas, this.columnas);
         this.parejasTotales = (this.filas * this.columnas)/2
         this.parejasAcertadas = 0;
         this.arrayContenido = [];
@@ -274,9 +301,7 @@ class Memorin extends Tablero{
             let celda1 = document.getElementById(this.arrayContenido[1]);
             let celda2 = document.getElementById(this.arrayContenido[3]);
 
-            if(this.arrayContenido[0] != this.arrayContenido[2]){
-                console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es distinto a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
-                
+            if(this.arrayContenido[0] != this.arrayContenido[2]){                
                 setTimeout(function(){
                     celda1.firstChild.innerHTML = " ";                    
                     celda2.firstChild.innerHTML = " ";
@@ -287,7 +312,6 @@ class Memorin extends Tablero{
 
 
             }else{
-                console.log(`${this.arrayContenido[0]} con id ${this.arrayContenido[1]} es igual a ${this.arrayContenido[2]} con id ${this.arrayContenido[3]}`);
                 celda1.style.backgroundColor = 'green';
                 celda2.style.backgroundColor = 'green';
                 this.parejasAcertadas++
@@ -305,49 +329,36 @@ class Memorin extends Tablero{
 
         if(this.arrayId.length == 2){          
             this.puntuacionActual = this.puntuacionActual + 10;
-
-            console.log(this.arrayId.length);
             this.arrayId = [];
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
             
         } else if(this.arrayId.length == 4){
             this.puntuacionActual = this.puntuacionActual + 5;
-            console.log(this.arrayId.length);
             this.arrayId = [];
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
         } else if(this.arrayId.length == 6){
             this.puntuacionActual = this.puntuacionActual + 2.5;
-            console.log(this.arrayId.length);
             this.arrayId = [];
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
         } else if (this.arrayId.length > 6){
-            console.log(this.arrayId.length);
             this.arrayId = [];
             puntuacion.innerHTML = `${this.puntuacionActual}/${this.puntuacionMaxima}`;
 
-        } 
-        console.log(`puntos: ${this.puntuacionActual}`);
-        
+        }         
     }
 
     ganar(){
-        //Muestra el mensaje al final de la partida
-        alert(`¡Felicidades, has ganado! Puntuación: ${this.puntuacionActual}`);
-        let casilla;
-        for(let i = 0; i < this.filas; i++){
-            for(let j = 0; j < this.columnas; j++){
-                casilla = document.getElementById(`f${i}_c${j}`);
-
-                casilla.removeEventListener('click', this.despejarCelda);
-            }
-        }   
+        //Muestra el mensaje al final de la partida, la puntuación y el tiempo
+        let nodoCrono = document.getElementById("crono");
+        clearInterval(this.crono);
+        alert(`¡Felicidades, has ganado! Puntuación: ${this.puntuacionActual}, tiempo: ${nodoCrono.innerHTML}`);
     }
 }
 
 window.onload = function(){
-  
+    
     let memorin1 = new Memorin();
     memorin1.colocarListeners();
 }
